@@ -7,105 +7,48 @@
 </head>
 <body>
 <script>
-    //2
-var a = 2;
-var x = 1 + (a *= 2); // ответ 5
-    //3
-var a = 4
-var b = 9
-if((a >= 0) && (b >= 0)){
-    a / b;
-} else if((a < 0) && (b < 0)){
-    a * b;
-} else{
-    a + b;
-}
-    //4
-var x = +prompt ('Введите число от 1 до 15');
-switch (x) {
-case 1:
-	alert ("число 1");
-	break;
-case 2:
-	alert ("число 2");
-	break;
-case 3:
-	alert ("число 3");
-	break;
-case 4:
-	alert ("число 4");
-	break;
-case 5:
-	alert ("число 5");
-	break;
-case 6:
-	alert ("число 6");
-	break;
-case 7:
-	alert ("число 7");
-	break;
-case 8:
-	alert ("число 8");
-	break;
-case 9:
-	alert ("число 9");
-	break;
-case 10:
-	alert ("число 10");
-	break;
-case 11:
-	alert ("число 11");
-	break;
-case 12:
-	alert ("число 12");
-	break;
-case 13:
-	alert ("число 13");
-	break;
-case 14:
-	alert ("число 14");
-	break;
-case 15:
-	alert ("число 15");
-	break;	
-}	
-    //5
-var a = 2;
-var b = 3;
-
-function plus(a, b) {
-return a + b;
-}
-
-function minus(a, b) {
-return a - b;
-}
-
-function div (a, b) {
-return a / b;
-}
-
-function mult (a, b) {
-return a + b;
-}
-
-    //6
-function mathOperation(arg1, arg2, operation){
-    switch(operation){
-    case "сложение":
-        return arg1 + arg2;
-    break;
-    case "вычитание":
-        return arg1 - arg2;
-    break;
-    case "деление":
-        return arg1 / arg2;
-    break;
-    case "умножение":
-        return arg1 * arg2;
-    break;
+	// 1
+    var n = 0;
+    while (n <= 100) {
+        var d = 2;
+        while (d < n) {
+				if (n % d === 0) {
+                break;
+            }
+            if (d === n - 1) {
+                console.log(n);
+            }
+            d++
+        }
+        if (n === 2){
+            console.log(n)
+        }
+        n++
     }
-}
+
+
+
+	// 2
+	 var cart = [
+			["item1", 360],
+			["item2", 650],
+			["item3", 780],
+			["item4", 900],
+			["item5", 1000],
+			["item6", 30],
+			["item7", 70]
+		];
+		var sum = 0;
+		for (var i = 0; i !== cart.length; ++i) {
+			sum = sum + cart[i][1];
+		}
+		console.log("сумма корзины: " + sum);
+
+
+
+		//3
+		for (var i = 0; i < 10; console.log(i), ++i) { }
+
 </script>
 </body>
 </html>
