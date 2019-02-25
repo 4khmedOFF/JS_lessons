@@ -1,1 +1,1 @@
-# sj_lessons
+# js_lessons
