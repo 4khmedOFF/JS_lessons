@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+        }
+        #cart {
+            width: 200px;
+            background-color: darkgrey;
+            border-radius: 5px;
+            box-shadow: 4px 4px 15px 1px rgba(0, 0, 0, 0.66);
+            height: 150px;
+        }
+
+        p {
+            color: rgb(102, 102, 102);
+            font-weight: 600;
+            font-size: 15px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .text {
+            color: white;
+        }
+
+        #catalog {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 700px;
+        }
+
+        .product-item {
+            min-width: 100px;
+            margin: 10px;
+            padding: 10px;
+            border: 2px solid black;
+            border-radius: 10px;
+        }
+
+        .cart-button {
+            cursor: pointer;
+            color: white;
+            font-weight: 600;
+            margin: 10px;
+            padding: 5px;
+            background-color: rgb(102, 102, 102);
+            border-radius: 5px;
+            border: 1px solid transparent;
+        }
+
+        .cart-button:hover {
+            color: rgb(102, 102, 102);
+            background-color: white;
+            border: 1px solid rgb(102, 102, 102);
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="cart"></div>
+    <div id="catalog">
+    </div>
+    <script>
+        function cartsum(cart) {
+            var priceSum = 0;
+            var quantitySum = 0;
+            var $cartbox = document.getElementById('cart');
+            $cartbox.innerHTML = '';
+            var $cartstatus = document.createElement('p');
+            if (cart.length === 0) {
+                $cartstatus.textContent = 'корзина пуста';
+                $cartbox.appendChild($cartstatus);
+            } else {
+                for (i = 0; i < cart.length; i++) {
+                    priceSum = priceSum + cart[i].price * cart[i].quantity;
+                    quantitySum = quantitySum + +cart[i].quantity;
+                }
+                $cartstatus.classList.add('text');
+                $cartstatus.textContent = 'В корзине:' + ' ' + quantitySum + ' ' + 'товаров, на сумму' + ' ' + priceSum +
+                    ' ' + 'рублей';
+                $cartbox.appendChild($cartstatus);
+            }
+            var $cartButton = document.createElement('div');
+            $cartButton.classList.add('cart-button');
+            $cartButton.textContent = 'Очистить корзину';
+            $cartButton.dataset.original = 'CartClear';
+            $cartbox.appendChild($cartButton);
+            $cartbox.addEventListener("click", handleCartClear);
+        }
+
+        function handleCartClear(event) {
+            if (event.target.className === 'cart-button') {
+                cart = [];
+                cartsum(cart);
+            }
+        }
+
+        function getCatalog(catalog) {
+            var $catalog = document.getElementById('catalog');
+            for (i = 0; i < catalog.length; i++) {
+                var $catalogItem = document.createElement('div');
+                $catalogItem.classList.add('product-item');
+                $catalog.appendChild($catalogItem);
+                var $catalogItemTitle = document.createElement('div');
+                $catalogItemTitle.textContent = 'тип:' + ' ' + catalog[i].title;
+                $catalogItem.appendChild($catalogItemTitle);
+                var $catalogItemSize = document.createElement('div');
+                $catalogItemSize.textContent = 'Размер:' + ' ' + catalog[i].size;
+                $catalogItem.appendChild($catalogItemSize);
+                var $catalogItemPrice = document.createElement('div');
+                $catalogItemPrice.textContent = 'Цена:' + ' ' + catalog[i].price;
+                $catalogItem.appendChild($catalogItemPrice);
+                var $catalogItemButton = document.createElement('div');
+                $catalogItemButton.textContent = 'Добавить в корзину';
+                $catalogItemButton.classList.add('cart-button');
+                $catalogItemButton.dataset.toCart = i;
+                $catalogItem.appendChild($catalogItemButton);
+            }
+            $catalog.addEventListener("click", handleAddToCart);
+        }
+
+        function handleAddToCart(event) {
+            var src = event.target.dataset.toCart;
+            if (event.target.className === 'cart-button') {
+                cart.push(product[src]);
+                cart[cart.length - 1].quantity = +1;
+                cartsum(cart);
+                event.stopPropagation();
+            }
+        }
+        var cart = [];
+        cartsum(cart);
+        var product = [{
+                title: 'boots',
+                size: '37',
+                price: '40'
+            },
+            {
+                title: 't-short',
+                size: '45',
+                price: '450'
+            },
+            {
+                title: 't-short',
+                size: '45',
+                price: '1260'
+            },
+            {
+                title: 'shorts',
+                size: '25',
+                price: '350'
+            },
+            {
+                title: 'jeans',
+                size: '55',
+                price: '150'
+            },
+            {
+                title: 'boots',
+                size: '37',
+                price: '40'
+            },
+            {
+                title: 't-short',
+                size: '45',
+                price: '450'
+            },
+            {
+                title: 'shorts',
+                size: '25',
+                price: '350'
+            },
+            {
+                title: 'jeans',
+                size: '55',
+                price: '150'
+            }
+        ];
+        getCatalog(product);
+    </script>
+</body>
+
+</html>
+
+
+                    <!--4khmedOFF-->
