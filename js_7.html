@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+      margin: 0;
+      padding: 0;
+    }
+
+    #ghostdiv {
+      display: none;
+    }
+
+    h2 {
+      text-align: center;
+      background-color: rgb(192, 192, 192);
+      border: 1px solid black;
+    }
+
+    #cart {
+      margin: 5px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 200px;
+      background-color: darkgrey;
+      border-radius: 5px;
+      box-shadow: 4px 4px 15px 1px rgba(0, 0, 0, 0.66);
+      padding: 10px;
+    }
+
+    #cart-items {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+
+    .cart-item {
+      min-width: 100px;
+      margin: 10px;
+      padding: 10px;
+      border: 2px solid black;
+      border-radius: 5px;
+    }
+
+    p {
+      color: rgb(102, 102, 102);
+      font-weight: 600;
+      font-size: 15px;
+      text-align: center;
+      height: 40px;
+    }
+
+    .text {
+      color: white;
+    }
+
+    #catalog {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .product-item {
+      min-width: 100px;
+      margin: 10px;
+      padding: 10px;
+      border: 2px solid black;
+      border-radius: 5px;
+    }
+
+    .cart-button {
+      cursor: pointer;
+      color: white;
+      font-weight: 600;
+      text-align: center;
+      padding: 5px;
+      background-color: rgb(102, 102, 102);
+      border-radius: 5px;
+      border: 1px solid transparent;
+    }
+
+    .cart-button:hover {
+      color: rgb(102, 102, 102);
+      background-color: white;
+      border: 1px solid rgb(102, 102, 102);
+      box-sizing: border-box;
+    }
+
+    .button {
+      cursor: pointer;
+      color: white;
+      font-weight: 600;
+      text-align: center;
+      padding: 5px;
+      background-color: rgb(102, 102, 102);
+      border-radius: 5px;
+      border: 1px solid transparent;
+    }
+
+    .button:hover {
+      color: rgb(102, 102, 102);
+      background-color: white;
+      border: 1px solid rgb(102, 102, 102);
+      box-sizing: border-box;
+    }
+
+    input {
+      padding: 5px;
+      margin: 10px;
+      font-size: 15px;
+      font-weight: bold;
+      color: black;
+    }
+
+    textarea {
+      padding: 5px;
+      margin: 10px;
+      font-size: 15px;
+      font-weight: bold;
+      color: black;
+    }
+
+    .hide {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+    <h2>Блок "корзина"</h2>
+    <div id="cart"></div>
+    <h2>Состав корзины</h2>
+    <div id="cart-content">
+        <div id="cart-items"></div>
+        <div id="next1" class="button">Далее</div>
+    </div>
+    <h2>Адрес доставки</h2>
+    <div class="hide" id="delivery">
+        <input type="text" placeholder="Введите адресс доставки">
+        <div id="next2" class="button">Далее</div>
+    </div>
+    <h2>Комментарий</h2>
+    <div class="hide" id="coment">
+        <textarea name="coment" cols="30" rows="10" placeholder="Введите коментарий"></textarea>
+        <div id="next3" class="button">Далее</div>
+    </div>
+
+    <h2>Блок "каталог"</h2>
+    <div id="catalog">
+    </div>
+    <div id="ghostdiv">
+        <div class="product-item">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="cart-item">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <script>
+        function cartsum(cart) {
+            var priceSum = 0;
+            var quantitySum = 0;
+            var $cartbox = document.getElementById('cart');
+            var $cartboxitems = document.getElementById('cart-items');
+            var $cartstatus = document.createElement('p');
+            $cartboxitems.innerHTML = '';
+            $cartbox.innerHTML = '';
+            if (cart.length === 0) {
+                $cartstatus.textContent = 'корзина пуста';
+                $cartbox.appendChild($cartstatus);
+            } else {
+                for (var i = 0; i < cart.length; i++) {
+                    var $cartItem = document.querySelector('.cart-item').cloneNode(true);
+                    $cartItem.children[0].textContent = 'тип: ' + cart[i].title;
+                    $cartItem.children[1].textContent = 'Размер: ' + cart[i].size;
+                    $cartItem.children[2].textContent = 'Цена: ' + cart[i].price;
+                    $cartItem.children[3].textContent = 'кол-во: ' + cart[i].quantity;
+                    $cartItem.children[4].textContent = 'удалить из корзины';
+                    $cartItem.children[4].classList.add('cart-button');
+                    $cartItem.children[4].dataset.delItem = i;
+                    $cartboxitems.appendChild($cartItem);
+                    priceSum = priceSum + cart[i].price * cart[i].quantity;
+                    quantitySum = quantitySum + +cart[i].quantity;
+                }
+                $cartstatus.classList.add('text');
+                $cartstatus.textContent = 'В корзине: ' + quantitySum + ' товаров, на сумму ' + priceSum + ' рублей';
+                $cartbox.appendChild($cartstatus);
+            }
+            var $cartButton = document.createElement('div');
+            $cartButton.classList.add('cart-button');
+            $cartButton.textContent = 'Очистить корзину';
+            $cartButton.dataset.original = 'CartClear';
+            $cartbox.appendChild($cartButton);
+            $cartbox.addEventListener("click", handleCartClear);
+            $cartboxitems.addEventListener("click", handleDelItem);
+            if (cart.length !== 0) {
+                $next1.addEventListener("click", handleNext1);
+            }
+        }
+
+        function handleCartClear(event) {
+            if (event.target.classList.contains('cart-button')) {
+                cart = [];
+                cartsum(cart);
+            }
+        }
+
+        function handleDelItem(event) {
+            var delFromCart = event.target.dataset.delItem;
+            if (event.target.classList.contains('cart-button')) {
+                cart.splice(delFromCart, 1);
+                cartsum(cart);
+            }
+        }
+        var $cartcontent = document.getElementById('cart-content');
+        var $delivery = document.getElementById('delivery');
+        var $coment = document.getElementById('coment');
+        var $next1 = document.getElementById('next1');
+        var $next2 = document.getElementById('next2');
+        var $next3 = document.getElementById('next3');
+
+        function handleNext1() {
+            $cartcontent.classList.toggle('hide');
+            $delivery.classList.toggle('hide');
+        }
+        $next2.addEventListener("click", handleNext2);
+
+        function handleNext2() {
+            $delivery.classList.toggle('hide');
+            $coment.classList.toggle('hide');
+        }
+        $next3.addEventListener("click", handleNext3);
+
+        function handleNext3() {
+            $coment.classList.toggle('hide');
+            $cartcontent.classList.toggle('hide');
+        }
+
+        function getCatalog(catalog) {
+            var $catalog = document.getElementById('catalog');
+            for (var i = 0; i < catalog.length; i++) {
+                var $catalogItem = document.querySelector('.product-item').cloneNode(true);
+                $catalogItem.children[0].textContent = 'тип:' + ' ' + catalog[i].title;
+                $catalogItem.children[1].textContent = 'Размер:' + ' ' + catalog[i].size;
+                $catalogItem.children[2].textContent = 'Цена:' + ' ' + catalog[i].price;
+                $catalogItem.children[3].textContent = 'Добавить в корзину';
+                $catalogItem.children[3].classList.add('cart-button');
+                $catalogItem.children[3].dataset.toCart = i;
+                $catalog.appendChild($catalogItem);
+            }
+            $catalog.addEventListener("click", handleAddToCart);
+        }
+
+        function handleAddToCart(event) {
+            var src = event.target.dataset.toCart;
+            if (event.target.classList.contains('cart-button')) {
+                cart.push(product[src]);
+                cart[cart.length - 1].quantity = +1;
+                cartsum(cart);
+                event.stopPropagation();
+            }
+        }
+        var cart = [];
+        cartsum(cart);
+        var product = [{
+                title: 'boots',
+                size: '37',
+                price: '40'
+            },
+            {
+                title: 't-short',
+                size: '45',
+                price: '450'
+            },
+            {
+                title: 'shorts',
+                size: '25',
+                price: '350'
+            },
+            {
+                title: 'jeans',
+                size: '55',
+                price: '150'
+            },
+            {
+                title: 'boots',
+                size: '37',
+                price: '40'
+            },
+            {
+                title: 't-short',
+                size: '45',
+                price: '450'
+            },
+            {
+                title: 'shorts',
+                size: '25',
+                price: '350'
+            },
+            {
+                title: 'jeans',
+                size: '55',
+                price: '150'
+            }
+        ];
+        getCatalog(product);
+    </script>
+</body>
+
+</html>
+
+
+                    <!--4khmedOFF-->
