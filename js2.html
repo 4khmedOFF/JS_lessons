@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+	// 1
+    var n = 0;
+    while (n <= 100) {
+        var d = 2;
+        while (d < n) {
+				if (n % d === 0) {
+                break;
+            }
+            if (d === n - 1) {
+                console.log(n);
+            }
+            d++
+        }
+        if (n === 2){
+            console.log(n)
+        }
+        n++
+    }
+
+
+
+	// 2
+	 var cart = [
+			["item1", 360],
+			["item2", 650],
+			["item3", 780],
+			["item4", 900],
+			["item5", 1000],
+			["item6", 30],
+			["item7", 70]
+		];
+		var sum = 0;
+		for (var i = 0; i !== cart.length; ++i) {
+			sum = sum + cart[i][1];
+		}
+		console.log("сумма корзины: " + sum);
+
+
+
+		//3
+		for (var i = 0; i < 10; console.log(i), ++i) { }
+
+</script>
+</body>
+</html>
